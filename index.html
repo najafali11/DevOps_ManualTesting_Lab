@@ -1,56 +1,171 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login Form</title>
-    <style>
-        body {
-            font-family: Arial;
-            background: linear-gradient(to right, #8ec5fc, #e0c3fc);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-        }
-        form {
-            background: white;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
-        }
-        input, button {
-            display: block;
-            width: 100%;
-            margin: 10px 0;
-            padding: 8px;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login & Signup Form</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+    body {
+      background: linear-gradient(135deg, #74ebd5, #ACB6E5);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+    .container {
+      background: #fff;
+      padding: 30px;
+      border-radius: 15px;
+      width: 370px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+      animation: fadeIn 0.5s ease-in-out;
+    }
+    @keyframes fadeIn {
+      from {opacity: 0; transform: scale(0.9);}
+      to {opacity: 1; transform: scale(1);}
+    }
+    h2 {
+      text-align: center;
+      margin-bottom: 20px;
+      color: #2980b9;
+    }
+    label {
+      font-weight: 500;
+      display: block;
+      margin: 10px 0 5px;
+    }
+    input {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      outline: none;
+      transition: 0.3s;
+    }
+    input:focus {
+      border-color: #2980b9;
+      box-shadow: 0 0 5px #6dd5fa;
+    }
+    button {
+      width: 100%;
+      margin-top: 15px;
+      background: #2980b9;
+      color: white;
+      padding: 10px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: 0.3s;
+    }
+    button:hover {
+      background: #1f6694;
+    }
+    .message {
+      text-align: center;
+      margin-top: 15px;
+      font-weight: 500;
+    }
+    .toggle {
+      text-align: center;
+      margin-top: 10px;
+      color: #2980b9;
+      cursor: pointer;
+      font-size: 14px;
+    }
+  </style>
 </head>
 <body>
-    <form>
-        <h2>Login Form</h2>
-        <label>Username:</label>
-        <input type="text" id="username" placeholder="Enter Username">
-        <label>Password:</label>
-        <input type="password" id="password" placeholder="Enter Password">
-        <button type="button" onclick="login()">Login</button>
-        <p id="message"></p>
-    </form>
-    <script>
-        function login() {
-            let user = document.getElementById('username').value;
-            let pass = document.getElementById('password').value;
-            let msg = document.getElementById('message');
-            
-            if(user === "admin" && pass === "12345") {
-                msg.innerText = "Login Successful ✅";
-                msg.style.color = "green";
-            } else {
-                msg.innerText = "Invalid credentials ❌";
-                msg.style.color = "red";
-            }
-        }
-    </script>
+  <div class="container">
+    <h2 id="formTitle">Login</h2>
+    
+    <!-- Login Form -->
+    <div id="loginForm">
+      <label>Email</label>
+      <input type="email" id="loginEmail" placeholder="Enter your email">
+      <label>Password</label>
+      <input type="password" id="loginPassword" placeholder="Enter your password">
+      <button onclick="login()">Login</button>
+      <p class="message" id="loginMsg"></p>
+      <p class="toggle" onclick="showSignup()">Don't have an account? Sign up</p>
+    </div>
+
+    <!-- Signup Form -->
+    <div id="signupForm" style="display: none;">
+      <label>Full Name</label>
+      <input type="text" id="fullName" placeholder="Enter your full name">
+      <label>Username</label>
+      <input type="text" id="username" placeholder="Enter your username">
+      <label>Email</label>
+      <input type="email" id="signupEmail" placeholder="Enter your email">
+      <label>Password</label>
+      <input type="password" id="signupPassword" placeholder="Enter your password">
+      <label>Confirm Password</label>
+      <input type="password" id="confirmPassword" placeholder="Confirm your password">
+      <button onclick="signup()">Sign Up</button>
+      <p class="message" id="signupMsg"></p>
+      <p class="toggle" onclick="showLogin()">Already have an account? Login</p>
+    </div>
+  </div>
+
+  <script>
+    function showSignup() {
+      document.getElementById('loginForm').style.display = 'none';
+      document.getElementById('signupForm').style.display = 'block';
+      document.getElementById('formTitle').innerText = 'Sign Up';
+    }
+
+    function showLogin() {
+      document.getElementById('signupForm').style.display = 'none';
+      document.getElementById('loginForm').style.display = 'block';
+      document.getElementById('formTitle').innerText = 'Login';
+    }
+
+    function signup() {
+      let fullName = document.getElementById('fullName').value;
+      let username = document.getElementById('username').value;
+      let email = document.getElementById('signupEmail').value;
+      let pass = document.getElementById('signupPassword').value;
+      let confirm = document.getElementById('confirmPassword').value;
+      let msg = document.getElementById('signupMsg');
+
+      if (!fullName || !username || !email || !pass || !confirm) {
+        msg.innerText = "All fields are required!";
+        msg.style.color = "red";
+      } else if (pass !== confirm) {
+        msg.innerText = "Passwords do not match!";
+        msg.style.color = "red";
+      } else {
+        localStorage.setItem('userFullName', fullName);
+        localStorage.setItem('userUsername', username);
+        localStorage.setItem('userEmail', email);
+        localStorage.setItem('userPass', pass);
+        msg.innerText = "Account created successfully ✅";
+        msg.style.color = "green";
+      }
+    }
+
+    function login() {
+      let email = document.getElementById('loginEmail').value;
+      let pass = document.getElementById('loginPassword').value;
+      let msg = document.getElementById('loginMsg');
+
+      let storedEmail = localStorage.getItem('userEmail');
+      let storedPass = localStorage.getItem('userPass');
+
+      if (email === storedEmail && pass === storedPass) {
+        msg.innerText = "Login Successful ✅";
+        msg.style.color = "green";
+      } else {
+        msg.innerText = "Invalid Email or Password ❌";
+        msg.style.color = "red";
+      }
+    }
+  </script>
 </body>
 </html>
